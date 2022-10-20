@@ -5,7 +5,7 @@ import { productsReducer } from './reducer/productReducer';
 //
 const reducer =combineReducers({
     products:productsReducer
-})
+}) 
 
 let initialState ={}
 
