@@ -20,13 +20,14 @@ const fetch =(url)=>import('node-fetch').then(({default:fetch})=>fetch(url));   
         })
     }
     
-    //  ver consulta de objeto por id aync para que espre la devolucion de la promesa o peticion
+//ver Producto por ID  ver consulta de objeto por id aync para que espre la devolucion de la promesa o peticion
     exports.getProductsById = async(req, res, next)=>{
         const product = await producto.findById(req.params.id) // busca el producto or id
         if (!product){ // si la contante no encontronada devuelve sms
             return res.status(404).json({
                 success:false,
-                message:"No encontramos ese Producto"
+                message:"No encontramos ese Producto",
+                error: true
             })
             
         }
@@ -99,7 +100,7 @@ function verProductos(){
     .catch(err=>console.error(err))
 }
 
-//verProductos(); LLamamos al metodo creado para probar la consulta
+//verProductos(); //LLamamos al metodo creado para probar la consulta
 
 //Ver por id
 function verProductoPorID(id){
