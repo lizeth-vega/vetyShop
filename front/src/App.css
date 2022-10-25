@@ -39,7 +39,7 @@ nav {
   width: 90%;
   margin-right: 35%;
 }
-
+f
 #search_field {
   height: 2.4rem;
   padding: 1rem;
@@ -246,7 +246,7 @@ footer {
 }
 
 #checkout_btn,
-.review-btn { 
+.review-btn {
   background-color: #fa9c23;
   border-color: #fa9c23;
   margin-top: 2rem;
@@ -613,7 +613,4 @@ ul.CTAs a {
 .review_user {
   font-size: 0.8rem;
   color: grey;
-}
-.text{
-  color: #eeeeee;
 }

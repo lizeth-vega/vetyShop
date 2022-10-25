@@ -15,7 +15,7 @@ export const Home = () => {
             return alert.error(error)            
         }
         dispatch(getProducts());
-        alert.success("OK") //genera una alerta en pantalla
+        //alert.success("OK") //genera una alerta en pantalla
         //alert.error("error") 
     }, [dispatch])
 

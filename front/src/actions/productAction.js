@@ -31,21 +31,23 @@ export const getProducts = () => async(dispatch)=>{
 
 // VER DETALLE DEL PRODUCTO  ENTONCES SE LE AGREGA EL ID
 export const getProductDetails = (id) => async(dispatch)=>{
-    try{
+    try {
         dispatch({type: PRODUCT_DETAILS_REQUEST})
-        //diccionario
-        const {data} = await axios.get(`api/producto/:${id}`)
-        dispatch( {
+
+        const {data} = await axios.get(`/api/producto/${id}`)
+
+        dispatch({
             type:PRODUCT_DETAILS_SUCCESS,
-            payload:data.product
+            payload: data.product
         })
-    } catch (error){
+    }catch (error){
         dispatch({
             type:PRODUCT_DETAILS_FAIL,
             payload: error.response.data.message
         })
     }
 }
+
 
 //clear error
 
