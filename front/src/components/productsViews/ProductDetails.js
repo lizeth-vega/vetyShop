@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Metadata from "../layout/MetaData"
+import Metadata from "../layout/Metadata"
 import { useParams } from 'react-router-dom' // para trater datos por parametros de id
 import { getProductDetails, clearErrors } from '../../actions/productAction'
 import { useAlert } from 'react-alert'

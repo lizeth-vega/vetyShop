@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import Metadata from './layout/MetaData'
+import Metadata from './layout/Metadata'
 import {useDispatch, useSelector} from 'react-redux'
 import { getProducts } from '../actions/productAction'
 import {Link} from 'react-router-dom'
