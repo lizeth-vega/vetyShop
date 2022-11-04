@@ -225,6 +225,39 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
         user
     })
 })
+//Eliminar Usuario
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
 
+    if (!user) {
+        return next(new ErrorHandler(`Usuario con id: ${req.params.id} 
+        no se encuentra en nuestra base de datos`))
+    }
+
+    await user.remove();
+
+    res.status(200).json({
+        success: true,
+        message: "Usuario eliminado correctamente"
+    })
+
+
+})
+
+//ejemplode para hacer ususrio activo o inactivo-- toca revisar mintu 13- clase 4 de nov
+// exports.inactiveUser = catchAsyncErrors(async(req, res, next)=> {
+//     const user = await User.findById(req.params.id);
+
+//     if (!user) {
+//        return next(new ErrorHandler(`Usuario con id: ${req.params.id} 
+//        no se encuentra en nuestra base de datos`))
+        
+//     }
+//     user.estado = "inactivo"
+//     res.status(200).json({
+//         success: true,
+//     })
+
+// })
 
 

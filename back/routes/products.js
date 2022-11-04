@@ -12,3 +12,5 @@ router.route('/producto/:id').put(updateProduct);// creacion de la ruta de la ac
 router.route('/producto/:id').delete(deleteProduct);// creacion de la ruta de la actualizacion
 
 module.exports = router; 
+
+
