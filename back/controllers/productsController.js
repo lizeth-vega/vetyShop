@@ -75,6 +75,93 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+
+
+//Crear o actualizar una review
+exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
+    const { rating, comentario, idProducto } = req.body;
+    //esto es un json que se crea con la siguiente informacion
+    const opinion = {
+        nombreCliente: req.user.nombre,
+        rating: Number(rating), //se castea el ratin para que lo ponga numerico
+        comentario
+    }
+
+    const product = await producto.findById(idProducto);
+
+    const isReviewed = product.opiniones.find(item => //busque en procutos opiniones y cada opinion conviertala en in item
+        item.nombreCliente === req.user.nombre) //revise si el nombre cliente es igual al nombre de la persona logueada si coincide no puedo crear una opinion
+    //debo actualizarla entonces
+
+    if (isReviewed) { //si isReviewed es verdadero
+        product.opiniones.forEach(opinion => { //recorra el arreglo que asuma qque los obejtos que hay es una opnion y que verifique cual es la del usuario para actualizara
+
+            if (opinion.nombreCliente === req.user.nombre) {
+                opinion.comentario = comentario,// actualizace a opinion.comentario con la nueva opinion
+                    opinion.rating = rating //actialice el raiting
+            }
+        })
+    } else { //sino tome el json y enviele o cree una opnion
+        product.opiniones.push(opinion)// creee la  opinion
+        product.numCalificaciones = product.opiniones.length//
+    }
+    //calcular el promedio ponderado o la calidad del producto
+    product.calificacion = product.opiniones.reduce((acc, opinion) =>
+        opinion.rating + acc, 0) / product.opiniones.length
+
+    await product.save({ validateBeforeSave: false }); //confirma que se debe guardar
+    //respuest de que si opino
+    res.status(200).json({
+        success: true,
+        message: "Hemos opinado correctamente"
+    })
+
+})
+
+
+//Ver todas las review de un producto
+exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
+    const product = await producto.findById(req.query.id)
+
+    res.status(200).json({
+        success: true,
+        opiniones: product.opiniones
+    })
+})
+
+//Eliminar review
+exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
+    const product = await producto.findById(req.query.idProducto);
+
+    const opiniones = product.opiniones.filter(opinion =>
+        opinion._id.toString() !== req.query.idReview.toString());
+
+    const numCalificaciones = opiniones.length;
+
+    const calificacion = product.opiniones.reduce((acc, Opinion) =>
+        Opinion.rating + acc, 0) / opiniones.length;
+
+    await producto.findByIdAndUpdate(req.query.idProducto, {
+        opiniones,
+        calificacion,
+        numCalificaciones
+    }, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+    res.status(200).json({
+        success: true,
+        message: "review eliminada correctamente"
+    })
+
+})
+
+
+
+
+
+
 //HABLEMOS DE FETCH
 //Ver todos los productos
 function verProductos() {
