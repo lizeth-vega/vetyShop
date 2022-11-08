@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import "../../App.css"
 import { Link } from 'react-router-dom'
+import Search from './Search'
 
 const Header = () => {
     return (
@@ -13,7 +14,11 @@ const Header = () => {
                 </div>
 
                 <div className='col-12 col-md-6 mt-2 mt-md-0'>
-                    <div className="input-group">
+                    
+                    {/* Aqui va buscar */}
+                    <Search/>
+                    
+                    {/* <div className="input-group">
                         <input
                             type="text"
                             id="search_field"
@@ -24,7 +29,7 @@ const Header = () => {
                                 <i class="fa fa-search-plus fa-2x text-white" aria-hidden="true"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Menu de despliegue */}
