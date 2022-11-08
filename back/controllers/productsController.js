@@ -1,10 +1,39 @@
 const catchAsyncErrors = require("../middlerware/catchAsyncErrors");
 const producto = require("../models/productos")// importar un esquema
+const APIFeatures = require("../utils/apiFeatures");
 const ErrorHandler = require("../utils/errorHandler");
 const fetch = (url) => import('node-fetch').then(({ default: fetch }) => fetch(url));   //importar un esquema con fecth
 
 //ver la lista de productos
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
+
+    //establecer cuantos objetos quiero por pagina en este casi muestra de a 3 por pagina de 8 producto que hay
+    const resPerPage = 4;
+    //cuente cuantos objetos hay ne total pero solo muestra algunos
+    const productsCount = await producto.countDocuments();
+
+    const apiFeatures = new APIFeatures(producto.find(), req.query)
+        //metodo para que busque por todos los medios
+        .search()
+        //metodo para filtrar
+        .filter()
+
+
+    let products = await apiFeatures.query;
+    let filteredProductsCount = products.length;
+
+    apiFeatures.pagination(resPerPage)
+    products = await apiFeatures.query.clone();
+
+    res.status(200).json({
+        success: true,
+        productsCount,
+        resPerPage,
+        filteredProductsCount,
+        products
+    })
+
+
     const productos = await producto.find();
     if (!productos) {
         return next(new ErrorHandler("Informacion no encontrado", 404))
