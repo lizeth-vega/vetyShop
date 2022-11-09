@@ -18,7 +18,6 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
         //metodo para filtrar
         .filter()
 
-
     let products = await apiFeatures.query;
     let filteredProductsCount = products.length;
 
@@ -208,6 +207,5 @@ function verProductoPorID(id) {
         .then(res => console.log(res))
         .catch(err => console.error(err))
 }
-
 
 //verProductoPorID('63456f5fcacf9e690afaec27'); //Probamos el metodo con un id

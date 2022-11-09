@@ -10,6 +10,7 @@ import Dashboard from './components/admin/Dashboard';
 import { ProductList } from './components/admin/ProductList';
 import Carrito from './components/cart/Carrito'
 import { NewProduct } from './components/admin/NewProduct';
+import {Login} from './components/user/Login';
 
 
 
@@ -28,6 +29,7 @@ function App() {
             <Route path='/nuevoProducto' element={<NewProduct />}/>
             <Route path='/search/:keyword' element={<Home/>}/>
             <Route path='/carrito' element={<Carrito/>}/>
+            <Route path='/login' element={<Login/>}/>
             
             
           </Routes>

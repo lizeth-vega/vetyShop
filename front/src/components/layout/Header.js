@@ -13,7 +13,7 @@ const Header = () => {
                     </div>
                 </div>
 
-                <div className='col-12 col-md-6 mt-2 mt-md-0'>
+                <div className='col-12 col-md-4 mt-2 mt-md-0'>
                     
                     {/* Aqui va buscar */}
                     <Search/>
@@ -31,6 +31,7 @@ const Header = () => {
                         </div>
                     </div> */}
                 </div>
+                <Link to="/login" className='btn ml-4' id="login_btn"> login</Link>
 
                 {/* Menu de despliegue */}
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">

@@ -13,11 +13,11 @@ import {
 } from '../constants/productConstants';
 
 //inicializamos una constante getProducts
-export const getProducts = (currentPage = 1, keyword="") => async (dispatch) => {
+export const getProducts = (currentPage = 1, keyword="", precio) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCTS_REQUEST })
-
-        let link=`/api/productos?keyword=${keyword}&pages=${currentPage}`
+        
+        let link=`/api/productos?keyword=${keyword}&page=${currentPage}&precio[gte]=${precio[0]}&precio[lte]=${precio[1]}`
         //diccionario
         const { data } = await axios.get(link)//a partir del simbolo ? hay una pregunta y se relaciona con otra unida por &
         dispatch({
