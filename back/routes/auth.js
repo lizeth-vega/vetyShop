@@ -15,7 +15,7 @@ const { isAuthenticateUser, authorizeRoles } = require("../middlerware/auth");
 const router = expres.Router();
 
 router.route('/usuario/registro').post(registroUsuario)
-router.route('/login').get(loginUser)
+router.route('/login').post(loginUser)
 router.route('/logout').get(isAuthenticateUser, logOut) //debe estra aytenticad para cerrar sesion
 router.route('/forgotPassword').post(forgotPassword)
 router.route('/resetPassword/:token').post(resetPassword)

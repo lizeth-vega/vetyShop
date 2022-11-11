@@ -2,10 +2,14 @@ const expres = require("express");
 const app = expres();
 const errorMiddleware = require("./middlerware/errors")
 const cookieParser = require("cookie-parser")
+const bodyParser =require('body-parser') //para que en una esquina del body se vea la foto
+const fileUpload = require('express-fileupload')
 
 //Uso de constantes importadas
 app.use(expres.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(fileUpload());
 
 
 //importar rutas

@@ -11,6 +11,8 @@ import { ProductList } from './components/admin/ProductList';
 import Carrito from './components/cart/Carrito'
 import { NewProduct } from './components/admin/NewProduct';
 import {Login} from './components/user/Login';
+import { Register } from './components/Register';
+
 
 
 
@@ -30,6 +32,7 @@ function App() {
             <Route path='/search/:keyword' element={<Home/>}/>
             <Route path='/carrito' element={<Carrito/>}/>
             <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>}/>
             
             
           </Routes>
