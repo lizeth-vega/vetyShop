@@ -10,6 +10,7 @@ const Header = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
+    const {cartItems} = useSelector(state=>state.cart) //nos muestar el numero de elementos del carrito
     const { user, loading } = useSelector(state => state.auth) //state.auth va a sacar el user y loadin para saber que mostrar en pantalla
     //funcion que llame al metodo logout
     const logoutHandler=()=>{
@@ -29,26 +30,12 @@ const Header = () => {
                 <div className='col-12 col-md-4 mt-2 mt-md-0'>
 
                     {/* Aqui va buscar */}
-                    <Search />
-
-                    {/* <div className="input-group">
-                        <input
-                            type="text"
-                            id="search_field"
-                            class="form-control"
-                            placeholder='Que producto busca?'></input>
-                        <div class="input-group-append">
-                            <button id="search-btn" class="btn">
-                                <i class="fa fa-search-plus fa-2x text-white" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div> */}
-
+                    <Search />                  
                 </div>
                 {/*Boton inicio sesión*/}
                 <div className="col-12 col-md-4 mt-4 mt-md-0 text-center">
                     <Link to="/carrito"><i class="fa fa-shopping-cart fa-2x text-white" aria-hidden="false"></i>
-                        <span className="ml-1" id="cart_count">2</span></Link>
+                        <span className="ml-1" id="cart_count">{cartItems.length}</span></Link>
 
                     {user ? (
                         <div className="ml-4 dropdown d-inline">
