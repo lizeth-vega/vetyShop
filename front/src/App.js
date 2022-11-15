@@ -7,7 +7,7 @@ import { ProductDetails } from './components/productsViews/ProductDetails';
 //Router traido desde react-router-dom (no confundir con el de express)
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Dashboard from './components/admin/Dashboard';
-import { ProductList } from './components/admin/ProductList';
+
 import Carrito from './components/cart/Carrito'
 import { NewProduct } from './components/admin/NewProduct';
 import { Login } from './components/user/Login';
@@ -20,6 +20,7 @@ import { UpdateProfile } from './components/user/UpdateProfile';
 import { UpdatePassword } from './components/user/UpdatePassword';
 import ForgotPassword from './components/user/ForgotPassword';
 import { NewPassword } from './components/user/NewPassword';
+import ProductList from './components/admin/ProductList';
 
 
 

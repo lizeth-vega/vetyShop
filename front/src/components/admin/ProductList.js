@@ -1,24 +1,30 @@
 import React, { Fragment, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getProducts } from '../../actions/productAction'
 import { Link } from 'react-router-dom'
-import { useAlert } from 'react-alert'
-import Metadata from '../layout/Metadata'
-import Sidebar from './Sidebar'
 import { MDBDataTable } from 'mdbreact'
 
-export const ProductList = () => { 
-    const { loading, productos, error } = useSelector(state => state.products) /*loading, productos, error*/
-    const alert = useAlert();
+import Metadata from '../layout/Metadata'
+import Sidebar from './Sidebar'
 
+import { useAlert } from 'react-alert'
+import { useDispatch, useSelector } from 'react-redux'
+import {  clearErrors, getAdminProducts } from '../../actions/productAction'
+
+const ProductList = () => {
+
+    const alert = useAlert();
     const dispatch = useDispatch();
+
+    const { loading, error, products } = useSelector(state => state.products);
+
     useEffect(() => {
+        dispatch(getAdminProducts()); //trae los prouctos y los muesra el front
+
         if (error) {
-            return alert.error(error)
+            alert.error(error);
+            dispatch(clearErrors())
         }
-        dispatch(getProducts());
-    }, [dispatch])
-    //tomar el json que es suna lista y voverla mas corta - eso va en una función
+
+    }, [dispatch, alert, error])
 
     const setProducts = () => {
         const data = {
@@ -45,44 +51,37 @@ export const ProductList = () => {
                 },
                 {
                     label: 'Acciones',
-                    field: 'actions',
+                    field: 'acciones',
                 },
             ],
             rows: []
         }
-
-        //por cada producto que encuentre
-
-        productos.forEach(product => {
-            data.rows.push({ // en todas las filas = empuje
+        products.forEach(product => {
+            data.rows.push({
                 nombre: product.nombre,
                 precio: `$${product.precio}`,
                 inventario: product.inventario,
                 vendedor: product.vendedor,
-                actions:
-                    <Fragment>
-                        <Link to={`/producto/${product._id}`} className="btn btn-primary py-1 px-2">
-                            <i className="fa fa-eye"></i>
-                        </Link><Link to="/" className="btn btn-warning py-1 px-2">
-                            <i class="fa fa-pencil"></i>
-                        </Link>
+                acciones: <Fragment>
+                    <Link to={`/producto/${product._id}`} className="btn btn-primary py-1 px-2">
+                        <i className="fa fa-eye"></i>
+                    </Link><Link to="/" className="btn btn-warning py-1 px-2">
+                    <i class="fa fa-pencil"></i>
+                    </Link>
 
-                        <Link to="/" className="btn btn-danger py-1 px-2">
-                            <i className="fa fa-trash"></i>
-                        </Link>
-
-
-                    </Fragment>
-
+                    <Link to="/" className="btn btn-danger py-1 px-2">
+                        <i className="fa fa-trash"></i>
+                    </Link>
+                </Fragment>
             })
-
         })
-        return data;
 
+        return data;
     }
+
     return (
         <Fragment>
-            <Metadata title={'All Products'} />
+            <Metadata title={'Todos los productos'} />
             <div className="row">
                 <div className="col-12 col-md-2">
                     <Sidebar />
@@ -90,7 +89,7 @@ export const ProductList = () => {
 
                 <div className="col-12 col-md-10">
                     <Fragment>
-                        <h1 className="my-5">Productos Registrados</h1>
+                        <h1 className="my-5">Todos los Productos</h1>
 
                         {loading ? <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i> : (
                             <MDBDataTable
@@ -109,4 +108,5 @@ export const ProductList = () => {
         </Fragment>
     )
 }
+
 export default ProductList
