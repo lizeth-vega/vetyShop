@@ -31,7 +31,7 @@ export const removeItemFromCart = (id) => async (dispatch, getState) => {
 }
 
 export const saveShippingInfo = (data) => async (dispatch) => {
-
+    //guarda la informacion del cuando se le de comprar en el localstorage
     dispatch({
         type: SAVE_SHIPPING_INFO,
         payload: data

@@ -3,6 +3,7 @@ const producto = require("../models/productos")// importar un esquema
 const APIFeatures = require("../utils/apiFeatures");
 const ErrorHandler = require("../utils/errorHandler");
 const fetch = (url) => import('node-fetch').then(({ default: fetch }) => fetch(url));   //importar un esquema con fecth
+const cloudinary = require('cloudinary')
 
 //ver la lista de productos
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
@@ -65,6 +66,32 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
     if (!product) {
         return next(new ErrorHandler("Producto no encontrado", 404))
     }
+    let imagen=[]
+
+    if (typeof req.body.imagen=="string"){
+        imagen.push(req.body.imagen)
+    }else{
+        imagen=req.body.imagen
+    }
+    if (imagen!== undefined){
+        //eliminar imagenes asociadas con el product
+        for (let i=0; i<product.imagen.lenght; i++){
+            const result= await cloudinary.v2.uploader.destroy(product.images[i].public_id)
+        }
+
+        let imageLinks=[]
+        for (let i=0; i<imagen.lenght; i++){
+            const result=await cloudinary.v2.uploader.upload(imagen[i],{
+                folder:"products"
+            });
+            imageLinks.push({
+                public_id:result.public_id,
+                url: result.secure_url
+            })
+        }
+        req.body.imagen=imageLinks
+    }
+
     //si elobejto si exist, ejecito la actualizacion
     product = await producto.findByIdAndUpdate(req.params.id, req.body, {
         new: true,// valido los atributos nuevos o actualizados
@@ -94,15 +121,32 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
 })
 //crear un  nuevo producto /api/productos/
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
-    req.body.user = req.user.id; //primero se busco  el usuario y des se registra o crea el producto
+    let imagen = []
+    if (typeof req.body.imagen === "string") { // sie le tipo que se encuentra en el area de imagen es un string
+        imagen.push(req.body.imagen) //envielo a la BD
+    } else {
+        imagen = req.body.imagen //imagen va a ser a lo que sea que se encuentre en el body
+    }
+
+    let imagenLink = [] // guarda y genera links
+
+    for (let i = 0; i < imagen.length; i++) { //mide la medida del arrgelo es decir si hay varias imagenes  genera un link
+        const result = await cloudinary.v2.uploader.upload(imagen[i], { // cargue cada una de las imagenes en un arreglo
+            folder: "products" // guardelo en el acarpta products en cloudinary.com (revisar)
+        })
+        imagenLink.push({ // envia los lnk a la bd
+            public_id: result.public_id, // coja cada una de las fotos
+            url: result.secure_url
+        })
+    }
+    req.body.imagen = imagenLink
+    req.body.user = req.user.id;
     const product = await producto.create(req.body);
-    //Esperar hasta que sea cree el producto
     res.status(201).json({
         success: true,
         product
     })
 })
-
 
 
 //Crear o actualizar una review

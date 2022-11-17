@@ -37,8 +37,10 @@ export const Register = () => {
         formData.set("email", email);
         formData.set("password", password);
         formData.set("avatar", avatar)
+        
 
         dispatch(register(formData)) //este formData es lo mismo que el userData que biene de UserAction linea 40 se le va a enviar al datos al userData por medio del formData
+        
     }
 
     //setear el campo del avatar
